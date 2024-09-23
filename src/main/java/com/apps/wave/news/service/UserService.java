@@ -2,6 +2,7 @@ package com.apps.wave.news.service;
 
 
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import com.apps.wave.news.entity.User;
 import com.apps.wave.news.enums.Role;
 import com.apps.wave.news.exception.BusinessExceptions;
 import com.apps.wave.news.repository.UserRepository;
+import com.apps.wave.news.util.Util;
 
 @Service
 public class UserService {
@@ -33,7 +35,16 @@ public class UserService {
 
 
     public ResponseEntity<GeneralResponse> list(Pageable pageable){
-        return new GeneralResponse().response(userRepository.findAll(pageable));
+    	Page<User> page=userRepository.findAll(pageable) ;
+    	Page<UserDto> userDTOS = page.map(new Function<User, UserDto>() {
+			@Override
+			public UserDto apply(User user) {
+				return Util.convertToDto(user ,UserDto.class );
+				
+			}
+		});
+		
+        return new GeneralResponse().response(userDTOS);
     }
 
    

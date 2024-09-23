@@ -50,8 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
        .csrf().disable()
 
                 // giving every permission to every request for /login endpoint
-                .authorizeRequests().antMatchers("/api/auth/login", "/api/auth/signup",
-                		  "/swagger-ui/**",
+                .authorizeRequests().antMatchers("/api/auth/login", "/api/auth/signup","/api/auth/refresh-token"
+                		,  "/swagger-ui/**",
                           "/v2/api-docs",
                           "/swagger-resources/**",
                           "/webjars/**",

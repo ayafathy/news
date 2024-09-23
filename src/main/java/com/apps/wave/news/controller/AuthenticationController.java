@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.apps.wave.news.dto.GeneralResponse;
 import com.apps.wave.news.dto.LoginRequest;
+import com.apps.wave.news.dto.RefreshRequest;
 import com.apps.wave.news.dto.UserSignupDTO;
 import com.apps.wave.news.enums.Role;
 import com.apps.wave.news.exception.BusinessExceptions;
@@ -53,5 +54,9 @@ public class AuthenticationController {
         SecurityContextHolder.clearContext();
         return ResponseEntity.ok(new GeneralResponse(200,"Logout successful. Token has been blacklisted."));
       
+    }
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshRequest refreshToken) {
+    	return authenticationService.refreshToken(refreshToken.getRefreshToken());
     }
 }

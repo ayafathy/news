@@ -33,8 +33,8 @@ public class User {
 
     @Column(name = "PASSWORD", nullable = false, length = 150)
     private String password ;
-   
-    
+    @Column(name = "REFRESH_TOKEN")
+    private String refreshToken;
     @Column(name = "EMAIL", nullable = false, length = 250)
     private String email;
     @Column(name = "DATE_OF_BIRTH", nullable = false, length = 250)
@@ -42,6 +42,7 @@ public class User {
     @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Role Role;
+    
 
   
 }

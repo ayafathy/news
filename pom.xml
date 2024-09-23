@@ -75,6 +75,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
+            <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.7</version>
+        </dependency>
 	</dependencies>
 
   <build>

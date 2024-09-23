@@ -27,12 +27,11 @@ import org.apache.commons.codec.*;
 @Component
 public class JwtTokenProvider {
 	@Value("${lifeTimeToken.in.milliseconds}")
-	Integer validityInMs;
+	private Integer validityInMs;
+	@Value("${jwt.refresh.expiration}")
+	private Integer refreshExpiration;
 	@Autowired
-	JwtProperties jwtProperties;
-
-
-
+	private JwtProperties jwtProperties;
 	private PrivateKey privateKey;
 	private PublicKey publicKey;
 
@@ -83,5 +82,18 @@ public class JwtTokenProvider {
 	    }
 	   private Claims getClaims(String token) {
 	        return Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody();
+	    }
+	// Generate refresh token
+	    public String generateRefreshToken(String username) {
+	    	Date now = new Date();
+	    	Date validity = new Date(now.getTime() + refreshExpiration);
+	        return	 Jwts.builder()//
+	        		 .setSubject(username)
+				//	.setClaims(claims)//
+					.setIssuedAt(new Date(System.currentTimeMillis()))//
+					.setExpiration(validity)//
+					.signWith(SignatureAlgorithm.RS256, privateKey)//
+					.compact();
+	     
 	    }
 }
