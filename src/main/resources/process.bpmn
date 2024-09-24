@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.27.0">
+  <bpmn:process id="newsProcess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent" name="Start" />
+    <bpmn:task id="CreateNewsTask" name="Create News" />
+    <bpmn:task id="ApproveNewsTask" name="Approve News" />
+    <bpmn:task id="RequestDeleteTask" name="Request Delete" />
+    <bpmn:task id="ApproveDeleteTask" name="Approve Delete" />
+    <bpmn:endEvent id="EndEvent" name="End" />
+    <bpmn:sequenceFlow id="flow1" sourceRef="StartEvent" targetRef="CreateNewsTask" />
+    <bpmn:sequenceFlow id="flow2" sourceRef="CreateNewsTask" targetRef="ApproveNewsTask" />
+    <bpmn:sequenceFlow id="flow3" sourceRef="ApproveNewsTask" targetRef="EndEvent" />
+    <bpmn:sequenceFlow id="flow4" sourceRef="ApproveNewsTask" targetRef="CreateNewsTask" />
+    <bpmn:sequenceFlow id="flow5" sourceRef="EndEvent" targetRef="RequestDeleteTask" />
+    <bpmn:sequenceFlow id="flow6" sourceRef="RequestDeleteTask" targetRef="ApproveDeleteTask" />
+    <bpmn:sequenceFlow id="flow7" sourceRef="ApproveDeleteTask" targetRef="EndEvent" />
+    <bpmn:sequenceFlow id="flow8" sourceRef="ApproveDeleteTask" targetRef="RequestDeleteTask" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane bpmnElement="newsProcess">
+      <bpmndi:BPMNShape bpmnElement="StartEvent">
+        <dc:Bounds x="160" y="100" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="163" y="130" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="RequestDeleteTask">
+        <dc:Bounds x="210" y="200" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ApproveDeleteTask">
+        <dc:Bounds x="360" y="200" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="CreateNewsTask">
+        <dc:Bounds x="230" y="95" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ApproveNewsTask">
+        <dc:Bounds x="380" y="90" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EndEvent">
+        <dc:Bounds x="545" y="125" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="550" y="155" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

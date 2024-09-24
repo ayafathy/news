@@ -2,6 +2,7 @@ package com.apps.wave.news.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -30,7 +31,7 @@ public class News {
 	    private String titleInArabic;
 	    private String description;
 	    private String descriptionInArabic;
-	    private LocalDateTime publishDate;
+	    private Date publishDate;
 	    @Lob
 	    private byte[] image;
 
@@ -45,7 +46,8 @@ public class News {
 
 	    public enum Status {
 	        PENDING,
-	        APPROVED
+	        APPROVED,
+	        DELETED
 	    }
 
 }
