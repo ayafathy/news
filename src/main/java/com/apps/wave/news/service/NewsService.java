@@ -1,6 +1,8 @@
 package com.apps.wave.news.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.apps.wave.news.entity.News;
@@ -16,7 +18,8 @@ public class NewsService {
 
     @Autowired
     private NewsRepository newsRepository;
-
+    @Autowired
+    private com.apps.wave.news.security.JwtTokenProvider jwtTokenProvider ;
     // Create a news article (added by a content writer with 'PENDING' status)
     public News createNews(News news) {
         news.setStatus(News.Status.PENDING);
@@ -74,7 +77,8 @@ public class NewsService {
     }
 
     // Delete news article (Content Writer can delete if pending, Admin approval needed if approved)
-    public void deleteNews(Long id, String requesterRole) {
+    public String  deleteNews(Long id, String token ) {
+    	String requesterRole  =jwtTokenProvider.getRole(token);
         Optional<News> existingNews = newsRepository.findById(id);
 
         if (existingNews.isPresent()) {
@@ -87,10 +91,36 @@ public class NewsService {
                 // Only admin can delete if the status is APPROVED
                 newsRepository.deleteById(id);
             } else {
-                throw new BusinessExceptions("Only Admin can delete approved news");
+            	news.setRequestToDelete(true);
+                return "request to delete news successfully  created ";
             }
         } else {
             throw new BusinessExceptions("News with ID " + id + " not found");
         }
+        return "News successfull deleted" ;
     }
+
+	public Page<News> list(PageRequest of) {
+		return newsRepository.findAll(of);
+	}
+
+	public void approveRequestDeleteNews(Long id) {
+		
+        Optional<News> existingNews = newsRepository.findById(id);
+
+        if (existingNews.isPresent()) {
+            News news = existingNews.get();
+
+            if (!news.isRequestToDelete()) {
+                // Content writer can delete directly if status is PENDING
+                newsRepository.deleteById(id);
+            } 
+            else {
+            	throw new BusinessExceptions("News with ID " + id + " does not have Request to be deleted ");
+                
+            }
+        } else {
+            throw new BusinessExceptions("News with ID " + id + " not found");
+        }
+	}
 }

@@ -2,6 +2,7 @@ package com.apps.wave.news.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import com.apps.wave.news.validator.ArabicOnly;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,10 +30,12 @@ public class News {
 	    private Long id;
 
 	    private String title;
+	    @ArabicOnly
 	    private String titleInArabic;
 	    private String description;
+	    @ArabicOnly
 	    private String descriptionInArabic;
-	    private LocalDateTime publishDate;
+	    private Date publishDate;
 	    @Lob
 	    private byte[] image;
 
@@ -41,11 +46,13 @@ public class News {
 	    private LocalDateTime createdAt;
 	    private LocalDateTime updatedAt;
 
-	    // Getters and Setters
+	    private boolean isRequestToDelete ;  
+	   
 
 	    public enum Status {
 	        PENDING,
-	        APPROVED
+	        APPROVED,
+	        DELETED
 	    }
 
 }

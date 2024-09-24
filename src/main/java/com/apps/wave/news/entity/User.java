@@ -33,7 +33,7 @@ public class User {
 
     @Column(name = "PASSWORD", nullable = false, length = 150)
     private String password ;
-    @Column(name = "REFRESH_TOKEN")
+    @Column(name = "REFRESH_TOKEN" , length = 500)
     private String refreshToken;
     @Column(name = "EMAIL", nullable = false, length = 250)
     private String email;

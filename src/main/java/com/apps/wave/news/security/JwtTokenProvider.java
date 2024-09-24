@@ -60,16 +60,25 @@ public class JwtTokenProvider {
 	        return false;
 	    }
 	 
+		public String getRole(String token) {
+			if (token != null && token.startsWith("Bearer ")) {
+				token = token.substring(7, token.length());
+			}
 
+			return (String) Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody()
+					.get("role");
+
+		}
+			
 	 public String generate(String username ,String role ) {
 			Date now = new Date();
-			Map<String, Object> claims = new HashMap<>();
-	   //     claims.put("role", role);
+			Claims claims = Jwts.claims().setSubject(username);
+	        claims.put("role", role);
 			
 			Date validity = new Date(now.getTime() + validityInMs);
 	        return	 Jwts.builder()//
 	        		 .setSubject(username)
-				//	.setClaims(claims)//
+					.setClaims(claims)//
 					.setIssuedAt(new Date(System.currentTimeMillis()))//
 					.setExpiration(validity)//
 					.signWith(SignatureAlgorithm.RS256, privateKey)//

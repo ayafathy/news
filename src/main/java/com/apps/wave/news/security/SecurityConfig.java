@@ -56,8 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                           "/swagger-resources/**",
                           "/webjars/**",
                           "/swagger-ui.html").permitAll()
-                 .antMatchers("/api/news/**").hasAnyRole("CONTENT_WRITER", "ADMIN")
-                .antMatchers("/api/users/**").hasRole("ADMIN")
+                 .antMatchers("/api/news/add","/api/news/delete/*","/api/news/update/*","/api/news/list").hasAnyRole("CONTENT_WRITER", "ADMIN")
+                .antMatchers("/api/users/**" ,"/api/news/approve/*","/api/news/approveRequestDeleteNews/*").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

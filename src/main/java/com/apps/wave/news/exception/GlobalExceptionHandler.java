@@ -15,22 +15,29 @@ import com.apps.wave.news.dto.GeneralResponse;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BusinessExceptions.class)
-    public ResponseEntity<GeneralResponse> handleBusinessException(BusinessExceptions ex) {
-       
-        return ResponseEntity.ok(new GeneralResponse(HttpStatus.BAD_REQUEST.value(),ex.message));
-    
-    }
+	@ExceptionHandler(BusinessExceptions.class)
+	public ResponseEntity<GeneralResponse> handleBusinessException(BusinessExceptions ex) {
 
-    @ExceptionHandler(BindException.class)
-    public ResponseEntity<GeneralResponse> handleBindException(BindException ex
-                                                        ) {
-    
-        String failedValidationFeilds = ex.getBindingResult().getFieldErrors().stream()
-                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
-                .collect(Collectors.joining(","));
+		return ResponseEntity.ok(new GeneralResponse(HttpStatus.BAD_REQUEST.value(), ex.message));
 
-        return ResponseEntity.ok(new GeneralResponse(HttpStatus.BAD_REQUEST.value(),  "Bind Exception" +failedValidationFeilds));
-    }
+	}
+
+	@ExceptionHandler({ BindException.class })
+	public ResponseEntity<GeneralResponse> handleBindException(BindException ex) {
+
+		String failedValidationFeilds = ex.getBindingResult().getFieldErrors().stream()
+				.map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+				.collect(Collectors.joining(","));
+
+		return ResponseEntity
+				.ok(new GeneralResponse(HttpStatus.BAD_REQUEST.value(), "Bind Exception" + failedValidationFeilds));
+	}
+
+	@ExceptionHandler({ javax.validation.ConstraintViolationException.class })
+	public ResponseEntity<GeneralResponse> handleConstraintViolationException(
+			javax.validation.ConstraintViolationException ex) {
+
+		return ResponseEntity.ok(new GeneralResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+	}
+
 }
-

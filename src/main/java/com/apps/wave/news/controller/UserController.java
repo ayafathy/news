@@ -2,6 +2,8 @@ package com.apps.wave.news.controller;
 
 
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.apps.wave.news.dto.AddUserRequest;
 import com.apps.wave.news.dto.GeneralResponse;
+import com.apps.wave.news.enums.Role;
 import com.apps.wave.news.exception.BusinessExceptions;
 import com.apps.wave.news.service.UserService;
 
@@ -42,6 +45,9 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.ok(new GeneralResponse(200,"User deleted"));
     }
-    
+    @GetMapping("/api/roles")
+    public List<Role> getAllRoles() {
+        return Arrays.asList(Role.values());
+    }
 
 }
